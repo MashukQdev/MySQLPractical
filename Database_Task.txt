@@ -1,1 +1,97 @@
+(1)Creating DATABASE
 
+CREATE DATABASE employee;
+CREATE TABLE hobby(
+id INT PRIMARY KEY AUTO_INCREMENT,
+NAME VARCHAR(50)
+);
+
+(2)Creating table employee
+
+CREATE TABLE employee(
+id INT PRIMARY KEY AUTO_INCREMENT,
+first_name VARCHAR(50),
+last_name VARCHAR(50),
+age INT(5),
+mobile_number VARCHAR(12),
+address VARCHAR(100)
+);
+
+(3)Creating table employee_salary
+
+CREATE TABLE employee_salary(
+id INT,
+FOREIGN KEY (id) REFERENCES employee(id),
+salary INT(10),
+DATE DATE
+);
+
+(4)Creating table employee_hobby
+
+CREATE TABLE employee_hobby(
+id INT,
+FOREIGN KEY (id) REFERENCES employee(id)
+);
+
+(5)Inserting data in emploee table
+
+INSERT INTO employee(first_name,last_name,age,mobile_number,address) VALUES("Mashuk","Patel",22,"9662321092","Himatnagar");
+INSERT INTO employee(first_name,last_name,age,mobile_number,address) VALUES("Rohit","Vanzara",22,"8650012345","Idar");
+INSERT INTO employee(first_name,last_name,age,mobile_number,address) VALUES("Saurav","Ninama",23,"9178647893","Motipura");
+
+(6)Inserting data in emploee_salary table
+
+INSERT INTO employee_salary(id,salary,DATE) VALUES(1,"12345","2024-05-24");
+INSERT INTO employee_salary(id,salary,DATE) VALUES(2,"54321","2024-05-01");
+INSERT INTO employee_salary(id,salary,DATE) VALUES(3,"7890","2023-02-24");
+
+(7)Inserting data in hobby table
+
+INSERT INTO hobby(id,NAME) VALUES(1,"Cricket");
+INSERT INTO hobby(id,NAME) VALUES(2,"Football");
+INSERT INTO hobby(id,NAME) VALUES(3,"Kabbadi");
+
+(8)Update employee data
+
+UPDATE employee
+SET first_name='Rahul'
+WHERE id=1;
+
+(9)Delete one employee data
+
+DELETE FROM employee WHERE id=1;
+
+(10)Truncate table employee
+
+TRUNCATE TABLE employee_hobby;
+
+(11)Select firstname and last name from employee table
+
+SELECT first_name,last_name FROM employee;
+
+(12)Select salary from employee_salary table
+
+SELECT salary FROM employee_salary;
+
+(13)Select hobby name from hobby table
+
+SELECT NAME FROM hobby;
+
+(14)Select firstname from employee table and join table hobby to select hobby name
+
+SELECT e.first_name, h.name
+FROM employee e
+JOIN hobby h ON e.id = h.id;
+
+(15)Select firstname from employee table and join table employee_salary to select salary
+
+SELECT e.first_name, s.salary
+FROM employee e
+JOIN employee_salary s ON e.id = s.id;
+
+(16)Select firstname from employee table and join table hobby to select hobby name and also join table employee_salary to select salary
+
+SELECT e.first_name, h.name, s.salary
+FROM employee e
+JOIN hobby h ON e.id = h.id
+JOIN employee_salary s ON e.id = s.id;
