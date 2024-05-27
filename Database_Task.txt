@@ -19,10 +19,10 @@ CREATE TABLE employee (
 
 -- Created table employee_salary
 CREATE TABLE employee_salary (
-   id INT NOT NULL,
-   FOREIGN KEY (id) REFERENCES employee(id),
+   employee_id INT NOT NULL,
    salary DECIMAL(10,2) NOT NULL,
-   date DATE NOT NULL 
+   date DATE NOT NULL,
+   FOREIGN KEY (employee_id) REFERENCES employee(id),
 );
 
 -- Created table employee_hobby
