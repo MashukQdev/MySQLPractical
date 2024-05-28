@@ -63,7 +63,6 @@ VALUES
 (2, 2),
 (3, 1);
 
-
 -- Updated employee data
 UPDATE employee
 SET first_name = 'Rahul'
@@ -89,7 +88,6 @@ TRUNCATE TABLE employee_hobby;
    -- Select query for employee_hobby table
    SELECT * FROM employee_hobby;
 
-
 -- Create a select single query to get all employee name, all hobby_name in single column
 SELECT CONCAT(e.first_name, ' ', e.last_name) AS employee_name FROM employee AS e
 UNION
@@ -99,7 +97,6 @@ SELECT h.name FROM hobby AS h;
 SELECT CONCAT(e.first_name, ' ', e.last_name) AS employee_name, SUM(es.salary) AS salary
 FROM employee AS e
 INNER JOIN employee_salary AS es ON e.id = es.fk_employee_id GROUP BY es.fk_employee_id;
-
 
 -- Create a select query to get employee name, total salary of employee, hobby name(comma-separated - you need to use subquery for hobby name)
 SELECT CONCAT(e.first_name, ' ', e.last_name) AS employee_name, SUM(es.salary) AS total_salary,
