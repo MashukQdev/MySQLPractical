@@ -10,7 +10,7 @@ CREATE TABLE hobby (
 -- Created table employee
 CREATE TABLE employee (
    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-   first_name   VARCHAR(50)   NOT NULL,
+   first_name VARCHAR(50) NOT NULL,
    last_name VARCHAR(50) NOT NULL,
    age TINYINT(5) NOT NULL,
    mobile_number VARCHAR(17) NOT NULL,
@@ -36,28 +36,32 @@ CREATE TABLE employee_hobby (
 
 -- Inserted data in employee table
 INSERT INTO employee (first_name, last_name, age, mobile_number, address) 
-VALUES ("Mashuk", "Patel", 22, "9662321092", "Himatnagar"),
-       ("Rohit", "Vanzara", 22, "8650012345", "Idar"),
-       ("Saurav", "Ninama", 23, "9178647893", "Motipura");
+VALUES 
+("Mashuk", "Patel", 22, "9662321092", "Himatnagar"),
+("Rohit", "Vanzara", 22, "8650012345", "Idar"),
+("Saurav", "Ninama", 23, "9178647893", "Motipura");
 
 -- Inserted data in employee_salary table
 INSERT INTO employee_salary (id, salary, DATE) 
-VALUES (1, "12345", "2024-05-24"),
-       (2, "54321", "2024-05-01"),
-       (3, "7890", "2023-02-24");
+VALUES 
+(1, "12345", "2024-05-24"),
+(2, "54321", "2024-05-01"),
+(3, "7890", "2023-02-24");
 
 -- Inserted data in hobby table
 INSERT INTO hobby (id,NAME) 
-VALUES (1, "Cricket"),
-       (2, "Football"),
-       (3, "Kabbadi");
+VALUES 
+(1, "Cricket"),
+(2, "Football"),
+(3, "Kabbadi");
 
 -- Inserted data in employee_hobby table
 INSERT INTO employee_hobby (employee_id, hobby_id)
-VALUES (1, 1),
-       (1, 3),
-       (2, 2),
-       (3, 1);
+VALUES 
+(1, 1),
+(1, 3),
+(2, 2),
+(3, 1);
 
 
 -- Updated employee data
@@ -87,38 +91,19 @@ TRUNCATE TABLE employee_hobby;
 
 
 -- Create a select single query to get all employee name, all hobby_name in single column
-SELECT 
-   CONCAT(e.first_name, ' ', e.last_name, ' - ', GROUP_CONCAT(h.name SEPARATOR ', ')) AS employee_and_hobbies
-FROM 
-   employee e
-LEFT JOIN 
-   employee_hobby eh ON e.id = eh.fk_employee_id
-LEFT JOIN 
-   hobby h ON eh.fk_hobby_id = h.id
-GROUP BY 
-   e.id;
+SELECT CONCAT(e.first_name, ' ', e.last_name) AS employee_name FROM employee AS e
+UNION
+SELECT h.name FROM hobby AS h;
 
 -- Create a select query to get employee name, his/her employee_salary
-SELECT 
-   CONCAT(employee.first_name, ' ', employee.last_name) AS full_name,
-   employee_salary.salary
-FROM 
-   employee
-JOIN 
-   employee_salary ON employee.id = employee_salary.fk_employee_id;
+SELECT CONCAT(e.first_name, ' ', e.last_name) AS employee_name, SUM(es.salary) AS salary
+FROM employee AS e
+INNER JOIN employee_salary AS es ON e.id = es.fk_employee_id GROUP BY es.fk_employee_id;
 
 
 -- Create a select query to get employee name, total salary of employee, hobby name(comma-separated - you need to use subquery for hobby name)
-SELECT 
-   CONCAT(e.first_name, ' ', e.last_name) AS full_name,
-   SUM(es.salary) AS total_salary,
-   (SELECT GROUP_CONCAT(h.name SEPARATOR ', ') 
-   FROM hobby h 
-   LEFT JOIN employee_hobby eh ON h.id = eh.fk_hobby_id 
-   WHERE eh.fk_employee_id = e.id) AS hobbies
-FROM 
-   employee e
-LEFT JOIN 
-   employee_salary es ON e.id = es.fk_employee_id
-GROUP BY 
-   e.id;
+SELECT CONCAT(e.first_name, ' ', e.last_name) AS employee_name, SUM(es.salary) AS total_salary,
+(SELECT GROUP_CONCAT(h.name) FROM hobby AS h
+INNER JOIN employee_hobby AS eh ON h.id = eh.fk_hobby_id WHERE eh.fk_employee_id = e.id) AS hobby_name
+FROM employee AS e
+LEFT JOIN employee_salary AS es ON e.id = es.fk_employee_id GROUP BY e.id;
